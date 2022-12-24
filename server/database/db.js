@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
   })
 
 connection.connect((err) => { if(err) {
-                                return console.error(err.message);
+                                return console.error(err);
                                } 
                             console.log("connected to pokedex database")})  
 

@@ -27,7 +27,11 @@ const options = {
 const sessionStore = new MySQLStore(options)
 
 //The configurations to accept data from frontend
-app.use(cors())
+app.use(cors({
+  credentials:true,            //access-control-allow-credentials:true
+  methods: ['GET', 'POST', 'DELETE', 'PUT'],  
+  origin: ['http://localhost:3000']
+}))
 app.use(express.json());
 //Initializing routes middleware
 app.use("/register", registerRoutes)
@@ -36,85 +40,63 @@ app.use(session({
     secret: 'keyboard cat',
     resave: false,
     store: sessionStore,
-    saveUninitialized: true,   
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: false
+    }
   }));
 
-//The local strategy configuration middleware
-passport.use(new localStrategy( (username, password, cb) => {
-
-    db.query('SELECT * FROM users WHERE username = ?', 
-           [ username ], 
-           (err, user) => { 
-                            //Sql sends as back an array, so we convert it to the user's object
-                            user = user[0]
-                            //Handling internal server error
-                            if (err) return cb(err)
-                            //Handling wrong username 
-                            if (!user) return cb(null, false, { message: 'Incorrect username' })
-                            //If none of the above errors occurs, we proceed to password comparison
-                            bcrypt.compare(password, 
-                                           user.password, 
-                                           (err, results) => {
-                                                                //Handling internal server error
-                                                                if(err) cb(err)
-                                                                //Handling wrong password
-                                                                if (!results) cb(null, false, { message: 'Incorrect username' })
-                                                                //If the password is correct, passport sticks the user's data
-                                                                //object to the session.
-                                                                if(results) {
-                                                                     cb(null, user)
-                                                                     console.log(user)
-                                                                    }                                           
-                                                            })                                  
-                                                        })
-                                                    })
-                                                );
-
-
-
-//Persists user id (the one that we saved and auto 
-//increment in the users database table) inside the session.
-passport.serializeUser((user, cb) => {
-
-      cb(null, user.id)    
-  });
-
-//Fetches the session object from the db based on the session id
-//and attach all the info we need to req.user
-passport.deserializeUser((id, cb) => {
-
-  let query = `SELECT username 
-               FROM users
-               WHERE id = ?`
-
-  db.query( query, id, (err, rows) =>{
-                                        if(err) throw(err)
-
-                                        let user = {
-                                          'id': id,
-                                          'username': rows[0].username
-                                         }
-
-                                        cb( null, user )
-                                      })
-                                    })
-//Passport becomes a middleware to every route
-app.use(passport.initialize())
-//Connects passport and session
-app.use(passport.session())    
-
 //we authenticate the session after every request
-app.post('/login', passport.authenticate('local'))
+app.post('/login', (req, res) => {
 
-app.get('/check', (req, res) =>  res.send(req.user))
+  const username = req.body.username
+  const password = req.body.password
 
-app.post('/logout', (req, res) => {
- 
-  req.session.destroy(function (err) {
-    if(err) throw err 
-    res.send('session closed')
-    });
-});
+  console.log(username)
+  console.log(password)
+
+  let query = 'SELECT * FROM users WHERE username = ?'
+
+  db.query( query, 
+            username, 
+            (err, rows) => {   
+                            if(err) res.send(err)
+
+                            if(rows.length > 0) {
+
+                            const hash = rows[0].password
+
+                            bcrypt.compare(password, 
+                                           hash, 
+                                           (err, result) => { if(err) throw err
+                                                              if(result) {
+
+                                                                req.session.user = rows[0].id
+                                                                res.send(req.session)
+                                                              } else {
+
+                                                                res.send('Wrong password')
+                                                              }
+                                                            })
+                                            
+                            } else {
+                               res.send('User doesnt exist')
+                            }
+                          })
+  
+} )  
+                                                                        
+
+app.get('/check', (req, res) =>  res.send(req.session))
+
+app.delete('/logout', (req, res) => {
+
+  req.session.destroy( err => {
+                                if(err) throw err
+                                res.clearCookie('connect.sid');
+                                res.send('session destroyed')
+                                })
+                              });
 
 
 app.listen(5000, () => console.log("app is listening to port 5000"))

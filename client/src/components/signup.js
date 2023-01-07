@@ -9,7 +9,7 @@ export const Signup = () => {
 
     const sendCredentials = () => {
 
-      axios.post('http://localhost:5000/signup', {
+      axios.post('http://localhost:5000/register', {
                                                   username: username,
                                                   password: password
                                                 })

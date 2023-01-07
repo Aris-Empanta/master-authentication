@@ -6,34 +6,40 @@ import { Home } from "./components/home"
 import { Profile } from './components/profile';
 import { Login } from './components/login';
 import { Signup } from './components/signup';
-import axios from 'axios'
 
 
 const App = () =>  {
 
-  const [ loggedIn, setLoggedIn ] = useState(false)
+  const [ user, setUser ] = useState(null)
 
   useEffect(() => {
     
-    
-    setLoggedIn( JSON.parse(localStorage.getItem('loggedIn')))
+    const u = localStorage.getItem('user')
+
+    u && JSON.parse(u) ? setUser(true) : setUser(false)
+
   }, [])
   
   useEffect(() => {
 
-    localStorage.setItem('loggedIn', JSON.stringify(loggedIn))
-    console.log(loggedIn)
-  }, [loggedIn])
+    localStorage.setItem('user', user)
+  }, [user])
   
 
   return (
           <Routes >
-            <Route path='/login' element={loggedIn ? <Navigate to="/" replace={true} /> : <Login setLoggedIn = { setLoggedIn } />} />
-            <Route path='/signup' element={loggedIn ? <Navigate to="/" replace={true} /> : <Signup/>} />
-            <Route path="/" element={<PrivateRoutes loggedIn = { loggedIn } />}>
-              <Route path="/" element={<Home setLoggedIn = { setLoggedIn }  />} />
-              <Route path="profile" element={<Profile />} />
-            </Route>
+            { !user ? (
+              <>
+                <Route path='/login' element={<Login authenticate = { () => setUser(true)} />} />
+                <Route path='/signup' element={<Signup/>} /> 
+              </>)
+              : (           
+              <> 
+                <Route path="/" element={ <Home logout = { () => setUser(false) }  /> } />
+                <Route path="/profile" element={<Profile  />} />
+              </>  
+            )}
+            <Route path='*' element={ <Navigate to={ user ? '/' : "/login"} />} />
           </Routes>
         );
 }

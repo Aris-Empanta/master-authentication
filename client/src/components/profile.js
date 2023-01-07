@@ -1,6 +1,6 @@
 
 
-export const Profile = () => {
+export const Profile = ({loggedIn}) => {
 
     return(<div>Profile</div>)
 }

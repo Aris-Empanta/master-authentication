@@ -10,7 +10,8 @@ const connection = mysql.createConnection({
     port: process.env.PORT 
   })
 
-connection.connect((err) => { if(err) {
+connection.connect((err) => { 
+                              if(err) {
                                 return console.error(err);
                                } 
                             console.log("connected to pokedex database")})  

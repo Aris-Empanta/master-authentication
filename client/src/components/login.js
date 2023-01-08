@@ -1,27 +1,22 @@
 import "../css/login.css"
 import { useState } from 'react';
 import axios from 'axios'
-import { useNavigate } from "react-router-dom";
 
-export const Login = ({authenticate}) => {
+export const Login = ({setUser}) => {
 
   const [ username, setUsername ] = useState("")
-    const [ password, setPassword ] = useState("")
-
-  const navigate = useNavigate()
+  const [ password, setPassword ] = useState("")
   
-  const onClick = () => {
+  const loginUser = () => { 
 
-   // navigate('/')
-    //authenticate()
-    axios.post('http://localhost:5000/login', {
+    axios.post('http://localhost:5000/username-password/login', {
                                                 username: username,
                                                 password: password
                                               }, 
                                               { 
                                                 withCredentials: true 
                                               })
-        .then( res => alert(res.data))
+        .then( res => res.data === 'Successfully authenticated' ? setUser(true) : setUser(false))
   
   }   
 
@@ -30,6 +25,6 @@ export const Login = ({authenticate}) => {
             <h1>Login</h1>
             <input type="text" placeholder="username" onChange={ (e) => setUsername(e.target.value) }/>
             <input type="password" placeholder="password"  onChange={ (e) => setPassword(e.target.value) }/>
-            <button onClick={ onClick }>login</button>
+            <button onClick={ loginUser }>login</button>
            </div>)
 }

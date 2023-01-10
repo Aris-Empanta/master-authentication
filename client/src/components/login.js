@@ -20,11 +20,21 @@ export const Login = ({setUser}) => {
   
   }   
 
+  const googleLogin = () => {
+
+    window.open('http://localhost:5000/auth/google', '_self')
+  }
+
 
     return(<div className="loginComponent">
-            <h1>Login</h1>
-            <input type="text" placeholder="username" onChange={ (e) => setUsername(e.target.value) }/>
-            <input type="password" placeholder="password"  onChange={ (e) => setPassword(e.target.value) }/>
-            <button onClick={ loginUser }>login</button>
+            <div id="googleLogin">
+              <button onClick={ googleLogin }>Google</button>
+            </div>
+            <div id="usernamePasswordLogin">
+              <h1>Login</h1>
+              <input type="text" placeholder="username" onChange={ (e) => setUsername(e.target.value) }/>
+              <input type="password" placeholder="password"  onChange={ (e) => setPassword(e.target.value) }/>
+              <button onClick={ loginUser }>login</button>
+            </div>
            </div>)
 }

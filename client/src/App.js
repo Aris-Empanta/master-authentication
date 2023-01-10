@@ -5,18 +5,29 @@ import { Home } from "./components/home"
 import { Profile } from './components/profile';
 import { Login } from './components/login';
 import { Signup } from './components/signup';
+import axios from 'axios'
 
 
 const App = () =>  {
 
   const [ user, setUser ] = useState(null)
 
-  useEffect(() => {
+  useEffect( () => {
     
     const loggedInUser = localStorage.getItem('user')
 
     loggedInUser && JSON.parse(loggedInUser) ? setUser(true) : setUser(false)
 
+    const checkIfUser = async () => {
+
+        const response = await axios.get('http://localhost:5000/get-user', 
+        { 
+          withCredentials: true 
+        })
+
+        console.log(response)
+      }
+      checkIfUser()
   }, [])
   
   useEffect(() => {

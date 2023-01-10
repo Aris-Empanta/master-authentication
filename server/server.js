@@ -3,6 +3,9 @@ const app = express()
 const cors = require('cors')
 const session = require('express-session')
 const sessionStore = require('./session_store/storeConfigs')
+const passport = require('passport')
+//We import google auth, as if the configurations are written in this file.
+const googleAuth = require('./passport/googleAuthentication')
 
 //Setting the cross-origin policy only for our specific frontend
 app.use(cors({
@@ -22,14 +25,22 @@ app.use(session({
   saveUninitialized: false,
 }));
 
+//Setting as a middleware the passport's 'initialize' and 'session' method.
+app.use(passport.initialize())
+app.use(passport.session())
+
 //Importing routes
 //ATTN! Routes should be initialized as middlewares after setting
 //all the other middlewares, as if they were in this module.
 const registerRoutes = require("./routes/register")
-const passwordLogin = require("./routes/passwordLogin")
+const passwordLoginRoute = require("./routes/passwordLogin")
+const googleAuthRoute = require('./routes/googleAuth')
 
 //Initializing routes middleware
 app.use("/register", registerRoutes)
-app.use('/username-password', passwordLogin)  
+app.use('/username-password', passwordLoginRoute)  
+app.use('/auth' ,googleAuthRoute)
+
+app.get('/get-user', (req, res ) => res.send(req.user))
 
 app.listen(5000, () => console.log("app is listening to port 5000"))

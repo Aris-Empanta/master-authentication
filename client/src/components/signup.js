@@ -10,9 +10,9 @@ export const Signup = () => {
     const sendCredentials = () => {
 
       axios.post('http://localhost:5000/register', {
-                                                  username: username,
-                                                  password: password
-                                                })
+                                                      username: username,
+                                                      password: password
+                                                    })
            }
 
     return(<div className="signupComponent">

@@ -5,47 +5,46 @@ import { Home } from "./components/home"
 import { Profile } from './components/profile';
 import { Login } from './components/login';
 import { Signup } from './components/signup';
+import { checkIfUser } from './functions/general'
 import axios from 'axios'
 
 
 const App = () =>  {
 
   const [ user, setUser ] = useState(null)
+  const [ trainer, setTrainer ] = useState(null)
 
   useEffect( () => {
+
+    //We parse the string value from the local storage we saved, 
+    //and we set the user's state accordingly. 
+    JSON.parse(localStorage.getItem('user')) ? setUser(true) : setUser(false)
     
-    const loggedInUser = localStorage.getItem('user')
+    setTrainer(JSON.parse(localStorage.getItem('trainer'))) 
 
-    loggedInUser && JSON.parse(loggedInUser) ? setUser(true) : setUser(false)
-
-    const checkIfUser = async () => {
-
-        const response = await axios.get('http://localhost:5000/get-user', 
-        { 
-          withCredentials: true 
-        })
-
-        console.log(response)
-      }
-      checkIfUser()
+    //Every time the App renders, we check if a user's session exists, to determine
+    //if we will stay logged in or not.
+    checkIfUser(axios, setUser, setTrainer) 
   }, [])
-  
-  useEffect(() => {
 
+  useEffect(() => {
+    
+    //Every time user and trainer state changes, we save the value to the local storage.
     localStorage.setItem('user', user)
-  }, [user])
+    localStorage.setItem('trainer', trainer)
+  }, [user, trainer])
   
 
   return (
           <Routes >
             { !user ? (
               <>
-                <Route path='/login' element={<Login setUser = { setUser } />} />
+                <Route path='/login' element={<Login setUser = { setUser } setTrainer={ setTrainer }/>} />
                 <Route path='/signup' element={<Signup/>} /> 
               </>)
               : (           
               <> 
-                <Route path="/" element={ <Home setUser = { setUser }  /> } />
+                <Route path="/" element={ <Home setUser = { setUser } trainer={ trainer } setTrainer={setTrainer}  /> } />
                 <Route path="/profile" element={<Profile  />} />
               </>  
             )}

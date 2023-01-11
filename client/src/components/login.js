@@ -2,7 +2,7 @@ import "../css/login.css"
 import { useState } from 'react';
 import axios from 'axios'
 
-export const Login = ({setUser}) => {
+export const Login = ({setUser, setTrainer}) => {
 
   const [ username, setUsername ] = useState("")
   const [ password, setPassword ] = useState("")
@@ -16,7 +16,10 @@ export const Login = ({setUser}) => {
                                               { 
                                                 withCredentials: true 
                                               })
-        .then( res => res.data === 'Successfully authenticated' ? setUser(true) : setUser(false))
+        .then( res => { 
+                        res.data.id ? setUser(true) : setUser(false)
+                        res.data.name? setTrainer(res.data.name) : setTrainer(null)
+                        } )
   
   }   
 

@@ -35,12 +35,14 @@ app.use(passport.session())
 const registerRoutes = require("./routes/register")
 const passwordLoginRoute = require("./routes/passwordLogin")
 const googleAuthRoute = require('./routes/googleAuth')
+const checkForUserRoute = require('./routes/checkForUser')
+const logoutRoute = require('./routes/logout')
 
 //Initializing routes middleware
 app.use("/register", registerRoutes)
 app.use('/username-password', passwordLoginRoute)  
 app.use('/auth' ,googleAuthRoute)
-
-app.get('/get-user', (req, res ) => res.send(req.user))
+app.use('/check-for-user', checkForUserRoute)
+app.use('/logout', logoutRoute )
 
 app.listen(5000, () => console.log("app is listening to port 5000"))

@@ -2,27 +2,13 @@ const express = require("express")
 const router = express.Router()
 const passport = require('passport')
 
-router.get('/google', passport.authenticate('google', { scope: ['profile'] }))
+//The route that our frontend will redirect to authenticate with google.
+router.get('/google', passport.authenticate('google', { scope: ['profile'] }) )
 
-router.get('/login/success', (req, res) => {
-     res.send('Successfully authenticated')
-                
-})
-
-router.get('/login/failed', (req, res) => {
-
-    res.send('login failed')
-})
-
-router.get('/logout', (req, res) => {
-    //we delete req.user
-    req.logout()
-    res.send('session destroyed')
-})
-
+//The route after the authentication.
 router.get('/google/callback', passport.authenticate('google', {
-    successRedirect: '/login/success',
-    failureRedirect: '/login/failed'
+    successRedirect: 'http://localhost:3000',
+    failureRedirect: 'http://localhost:3000/login'
 }))
 
 module.exports = router

@@ -9,14 +9,18 @@ passport.use(new GoogleStrategy({
     callbackURL: "/auth/google/callback"
   },
   (accessToken, refreshToken, profile, cb) => {
-      console.log(profile) 
-      cb(null, profile);
+
+    cb(null, profile);
   }
 ));
 
-//We pass the users id to the session object
+//We pass the users id to the session object.
+//we save the id and the user's name.
 passport.serializeUser((user, done) => {
-    done(null, user)
+    done(null, { 
+        id: user.id,
+        name: user.name.givenName
+    })
 })
 
 //With the session id from the session object, we

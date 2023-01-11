@@ -37,25 +37,19 @@ router.post('/login', (req, res) => {
                                               //If credentials are correct and a session is created, 
                                               //we pass the user's id to the session
                                               if(req.session) { 
-                                                               req.session.user = rows[0].id
-                                                               res.send('Successfully authenticated') 
+                                                               //imitating passport's user serialization
+                                                                req.session.user = { 
+                                                                                              id: rows[0].id,
+                                                                                              name: rows[0].username 
+                                                                                            }
+
+                                                               res.send(req.session.user) 
                                                                }                                           
                                             })
                                               
                               } 
                             )
-                      })
-
-//Once user requests to logout, the server clears the client's cookie
-//and deletes the session from the database
-router.delete('/logout', (req, res) => {
-
-        req.session.destroy( err => {
-                                        if(err) return res.send(err.message)
-                                        res.clearCookie('connect.sid');
-                                        res.send('session destroyed')
-                                        })
-                                    })                                                                       
+                      })                                                                     
 
 
 module.exports = router

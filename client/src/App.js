@@ -19,8 +19,11 @@ const App = () =>  {
     //We parse the string value from the local storage we saved, 
     //and we set the user's state accordingly. 
     JSON.parse(localStorage.getItem('user')) ? setUser(true) : setUser(false)
+
+    const trainer = localStorage.getItem('trainer')
+    console.log(trainer)
     
-    setTrainer(JSON.parse(localStorage.getItem('trainer'))) 
+    setTrainer(trainer) 
 
     //Every time the App renders, we check if a user's session exists, to determine
     //if we will stay logged in or not.

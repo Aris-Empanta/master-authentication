@@ -45,4 +45,9 @@ app.use('/auth' ,googleAuthRoute)
 app.use('/check-for-user', checkForUserRoute)
 app.use('/logout', logoutRoute )
 
+app.get('/checkme', (req, res) => {
+  console.log(req.session.passport.user.id)
+  res.send({ id: req.session.passport.user.id})
+})
+
 app.listen(5000, () => console.log("app is listening to port 5000"))

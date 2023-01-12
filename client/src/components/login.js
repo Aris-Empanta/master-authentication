@@ -1,6 +1,7 @@
 import "../css/login.css"
 import { useState } from 'react';
 import axios from 'axios'
+import { Link } from "react-router-dom";
 
 export const Login = ({setUser, setTrainer}) => {
 
@@ -17,6 +18,7 @@ export const Login = ({setUser, setTrainer}) => {
                                                 withCredentials: true 
                                               })
         .then( res => { 
+          console.log(res.data)
                         res.data.id ? setUser(true) : setUser(false)
                         res.data.name? setTrainer(res.data.name) : setTrainer(null)
                         } )
@@ -38,6 +40,7 @@ export const Login = ({setUser, setTrainer}) => {
               <input type="text" placeholder="username" onChange={ (e) => setUsername(e.target.value) }/>
               <input type="password" placeholder="password"  onChange={ (e) => setPassword(e.target.value) }/>
               <button onClick={ loginUser }>login</button>
+              <Link to='/signup'>Register</Link>
             </div>
            </div>)
 }

@@ -6,7 +6,7 @@ export const checkIfUser = async (axios, setUser, setTrainer) => {
                                                 { 
                                                     withCredentials: true 
                                                 })
-                                                console.log(response.data.name)
+                                                console.log(response.data)
 
                 response.data.name ? setTrainer(response.data.name) : setTrainer(null)
                 //If there is a user's id, we stay logged in, elese we logout.

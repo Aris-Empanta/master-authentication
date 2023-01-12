@@ -4,7 +4,7 @@ const db = require("../database/db")
 const bcrypt = require('bcrypt');
 
 //we authenticate the session after every request
-router.post('/login', (req, res) => {
+router.post('/login', (req, res, done) => {
 
     const username = req.body.username
     const password = req.body.password
@@ -37,13 +37,16 @@ router.post('/login', (req, res) => {
                                               //If credentials are correct and a session is created, 
                                               //we pass the user's id to the session
                                               if(req.session) { 
-                                                               //imitating passport's user serialization
-                                                                req.session.user = { 
-                                                                                              id: rows[0].id,
-                                                                                              name: rows[0].username 
-                                                                                            }
 
-                                                               res.send(req.session.user) 
+
+                                                               //imitating passport's user serialization, so that 
+                                                               //there is no confucion in data fetching with google auth
+                                                               req.session.passport = {user : { 
+                                                                                                id: rows[0].id,
+                                                                                                name: rows[0].username 
+                                                                                              }}
+                                                                
+                                                               res.send(req.session.passport.user) 
                                                                }                                           
                                             })
                                               

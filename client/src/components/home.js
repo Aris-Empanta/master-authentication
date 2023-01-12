@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios'
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 export const Home = ({setUser, trainer, setTrainer}) => {
@@ -16,8 +16,15 @@ export const Home = ({setUser, trainer, setTrainer}) => {
                         }) 
     }
 
+    const check = () => {
+
+        axios.get('http://localhost:5000/checkme', { withCredentials: true })
+             .then( res => console.log(res.data))
+    }
+
     return(<div>Hello { trainer }
         <button onClick={logout }> Logout </button>
         <Link to="/profile"> Profile </Link>
+        <button onClick={ check }>Check id</button>
     </div>)
 }

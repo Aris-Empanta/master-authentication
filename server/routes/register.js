@@ -2,12 +2,15 @@ const express = require("express")
 const router = express.Router()
 const db = require("../database/db")
 const bcrypt = require('bcrypt');
+const uuid = require('uuid');
 
 //The route to register a user
 router.post('/', (req, res) => {    
     //The credentials from the user
     const username = req.body.username
     const password = req.body.password
+    const email = req.body.email
+
     //The query to search if the username already exists
     const searchUserQuery = `SELECT username 
                             FROM users
@@ -25,14 +28,21 @@ router.post('/', (req, res) => {
                                     bcrypt.hash( password, 
                                                  saltRounds, 
                                                  (err, hash) => {
-                                                                    if(err) throw err
-                                                                    let saveUserQuery = `INSERT INTO users(username, password) VALUES( ?, ? )`
+                                                                    if(err) return res.send(err.message)
+
+                                                                    const userId = uuid.v4()
+
+                                                                    let saveUserQuery = `INSERT INTO users 
+                                                                                         VALUES( ?, ?, ?, ? )`
+                                                                        
+
                                                                     //We save the hashed password along ith the username
                                                                     db.query(saveUserQuery,
-                                                                             [ username, hash ], 
-                                                                             (err, rows) => {   if(err) throw err
+                                                                             [ username, hash, userId, email ], 
+                                                                             (err, rows) => {   
+                                                                                            if(err) return res.send(err.message)
                                                                                             res.send("Credentials saved")
-                                                                                        }) 
+                                                                                           }) 
                                                                 })                                  
                                 }
                             })

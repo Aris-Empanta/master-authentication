@@ -19,7 +19,7 @@ app.use(express.json());
 
 //Deploying session middleware
 app.use(session({
-  secret: 'keyboard cat',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   store: sessionStore,
   saveUninitialized: false,

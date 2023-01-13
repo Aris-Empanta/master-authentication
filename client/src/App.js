@@ -6,6 +6,7 @@ import { Profile } from './components/profile';
 import { Login } from './components/login';
 import { Signup } from './components/signup';
 import { checkIfUser } from './functions/general'
+import { ForgotPassword } from './components/forgotPassword'
 import axios from 'axios'
 
 
@@ -44,6 +45,7 @@ const App = () =>  {
               <>
                 <Route path='/login' element={<Login setUser = { setUser } setTrainer={ setTrainer }/>} />
                 <Route path='/signup' element={<Signup/>} /> 
+                <Route path='/restore-password' element={ <ForgotPassword /> } />
               </>)
               : (           
               <> 

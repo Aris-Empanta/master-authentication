@@ -41,6 +41,7 @@ export const Login = ({setUser, setTrainer}) => {
               <input type="password" placeholder="password"  onChange={ (e) => setPassword(e.target.value) }/>
               <button onClick={ loginUser }>login</button>
               <Link to='/signup'>Register</Link>
+              <Link to='/restore-password'>Forgot your password</Link>
             </div>
            </div>)
 }

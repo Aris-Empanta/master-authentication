@@ -37,6 +37,7 @@ const passwordLoginRoute = require("./routes/passwordLogin")
 const googleAuthRoute = require('./routes/googleAuth')
 const checkForUserRoute = require('./routes/checkForUser')
 const logoutRoute = require('./routes/logout')
+const emailVerificationRoute = require('./routes/sendVerificationCode') 
 
 //Initializing routes middleware
 app.use("/register", registerRoutes)
@@ -44,6 +45,7 @@ app.use('/username-password', passwordLoginRoute)
 app.use('/auth' ,googleAuthRoute)
 app.use('/check-for-user', checkForUserRoute)
 app.use('/logout', logoutRoute )
+app.use('/get-verification-code', emailVerificationRoute)
 
 app.get('/checkme', (req, res) => {
   console.log(req.session.passport.user.id)

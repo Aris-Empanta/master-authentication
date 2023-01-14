@@ -7,13 +7,14 @@ import { Login } from './components/login';
 import { Signup } from './components/signup';
 import { checkIfUser } from './functions/general'
 import { ForgotPassword } from './components/forgotPassword'
+import { RestorePassword } from './components/restorePassword';
 import axios from 'axios'
-
 
 const App = () =>  {
 
   const [ user, setUser ] = useState(null)
   const [ trainer, setTrainer ] = useState(null)
+  const [ haveCode, setHaveCode ] = useState(false)
 
   useEffect( () => {
 
@@ -45,7 +46,9 @@ const App = () =>  {
               <>
                 <Route path='/login' element={<Login setUser = { setUser } setTrainer={ setTrainer }/>} />
                 <Route path='/signup' element={<Signup/>} /> 
-                <Route path='/restore-password' element={ <ForgotPassword /> } />
+                <Route path='/restore-password' element={ !haveCode ?                                                           
+                                                          <ForgotPassword setHaveCode = { setHaveCode }/>  :
+                                                          <RestorePassword setHaveCode = { setHaveCode }/> } />
               </>)
               : (           
               <> 

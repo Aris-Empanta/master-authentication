@@ -37,7 +37,7 @@ const passwordLoginRoute = require("./routes/passwordLogin")
 const googleAuthRoute = require('./routes/googleAuth')
 const checkForUserRoute = require('./routes/checkForUser')
 const logoutRoute = require('./routes/logout')
-const emailVerificationRoute = require('./routes/sendVerificationCode') 
+const emailVerificationRoute = require('./routes/verificationCode') 
 
 //Initializing routes middleware
 app.use("/register", registerRoutes)

@@ -4,6 +4,7 @@ const cors = require('cors')
 const session = require('express-session')
 const sessionStore = require('./session_store/storeConfigs')
 const passport = require('passport')
+const authenticationProxy = require('./middlewares/authentication').authenticationProxy
 //We import google auth, as if the configurations are written in this file.
 const googleAuth = require('./passport/googleAuthentication')
 
@@ -47,15 +48,9 @@ app.use('/check-for-user', checkForUserRoute)
 app.use('/logout', logoutRoute )
 app.use('/get-verification-code', emailVerificationRoute)
 
-app.get('/checkme', (req, res, next) => {
-       
-  req.user = { user: 'aris'}
-  next()
-},
-(req, res) => {
+app.get('/checkme', authenticationProxy , (req, res) => {
+
   console.log(req.user)
-  console.log(req.session.passport.user.id)
-  res.send({ id: req.session.passport.user.id})
 })
 
 app.listen(5000, () => console.log("app is listening to port 5000"))

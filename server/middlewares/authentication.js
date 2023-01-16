@@ -7,10 +7,12 @@ module.exports = {
         if(req.user) return next()
         
         //We imitation the passport deserialise user method
-        //for the username / password login method
-        if(req.session.passport) {
+        //for the username / password login method. That way
+        //we access the user simply in req.user like in passport 
+        //authentication.
+        if(req.session.user) {
 
-            req.user = req.req.session.passport.user
+            req.user = req.session.user
             return next()
         }
         //We dont allow unauthorised users to reach endpoints that

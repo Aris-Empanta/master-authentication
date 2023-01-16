@@ -3,8 +3,8 @@ const router = express.Router()
 const db = require("../database/db")
 const bcrypt = require('bcrypt');
 
-//we authenticate the session after every request
-router.post('/login', (req, res, done) => {
+//The route to login with username and password, without passport framework.
+router.post('/login', (req, res) => {
 
     const username = req.body.username
     const password = req.body.password
@@ -13,7 +13,7 @@ router.post('/login', (req, res, done) => {
   
     db.query( query, 
               username, 
-              (err, rows) => {   
+              async (err, rows) => {   
                               //Handling internal server error  
                               if(err) return res.send(err)
   
@@ -22,34 +22,32 @@ router.post('/login', (req, res, done) => {
   
                               //The hashed password from the database
                               const hash = rows[0].password
-  
-                              //Comparing the actual hashed password with the one that user put
-                              bcrypt.compare(password, 
-                                             hash, 
-                                             (err, correct) => { 
-  
-                                              //Handling internal server error  
-                                              if(err) return res.send(err)
-  
-                                              //Handling wrong password
-                                              if(!correct) return res.send('Wrong password')    
-  
-                                              //If credentials are correct and a session is created, 
-                                              //we pass the user's id to the session
-                                              if(req.session) { 
 
+                              try {
 
-                                                               //imitating passport's user serialization, so that 
-                                                               //there is no confucion in data fetching with google auth
-                                                               req.session.passport = {user : { 
-                                                                                                id: rows[0].id,
-                                                                                                name: rows[0].username 
-                                                                                              }}
-                                                                
-                                                               res.send(req.session.passport.user) 
-                                                               }                                           
-                                            })
-                                              
+                                  //Comparing the actual hashed password with the one that user put
+                                  const correctPassword = await bcrypt.compare(password, hash)
+
+                                  //Handling wrong password
+                                  if(!correctPassword) return res.send('Wrong password')  
+
+                                  //imitating passport's user serialization, so that 
+                                  //there is no confucion in data fetching with google auth
+                                  req.session.user = { 
+                                                       id: rows[0].id,
+                                                       name: rows[0].username 
+                                                     }
+                                
+                                  res.send(req.session.user) 
+                              }
+                              catch(error) {
+
+                                  //Handling internal server error  
+                                  if(err)  { 
+                                             console.log('Error: ' + err.message)
+                                             return res.send('A server related error occured. Please try again later')
+                                            }
+                                     }                                              
                               } 
                             )
                       })      
@@ -61,26 +59,26 @@ router.put('/set-new-password', async (req, res) => {
 
     try {
 
-      let saltRounds = 10;
-      //We hash the password and then save it to the database.
-      const hashedPassword = await bcrypt.hash( newPassword, saltRounds)
-   
+        let saltRounds = 10;
+        //We hash the password and then save it to the database.
+        const hashedPassword = await bcrypt.hash( newPassword, saltRounds)
+    
 
-      let query = `UPDATE users
-                  SET password = ?
-                  WHERE email = ?`
+        let query = `UPDATE users
+                    SET password = ?
+                    WHERE email = ?`
 
-      db.query( query, 
-                [ hashedPassword, email ], 
-                (err) => {
-                           if(err) {
-                                
-                              console.log('Error: ' + err.message)
-                              return res.send('An error occured in the server')
-                           }
+        db.query( query, 
+                  [ hashedPassword, email ], 
+                  (err) => {
+                            if(err) {
+                                  
+                                console.log('Error: ' + err.message)
+                                return res.send('An error occured in the server')
+                            }
 
-                           res.send('New password saved successfully!')
-                })
+                            res.send('New password saved successfully!')
+                  })
       }
       catch (err) {
   

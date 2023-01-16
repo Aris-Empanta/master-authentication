@@ -1,3 +1,4 @@
+//The method to generate a random verification code
 module.exports = {
     verificationCode : () => {
         

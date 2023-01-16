@@ -40,17 +40,14 @@ const checkForUserRoute = require('./routes/checkForUser')
 const logoutRoute = require('./routes/logout')
 const emailVerificationRoute = require('./routes/verificationCode') 
 
-//Initializing routes middleware
+//Initializing routes middleware. The private user endpoints 
+//will also have the "authenticationProxy" middleware
 app.use("/register", registerRoutes)
 app.use('/username-password', passwordLoginRoute)  
 app.use('/auth' ,googleAuthRoute)
-app.use('/check-for-user', checkForUserRoute)
-app.use('/logout', logoutRoute )
+app.use('/check-for-user', authenticationProxy , checkForUserRoute)
+app.use('/logout', authenticationProxy, logoutRoute )
 app.use('/get-verification-code', emailVerificationRoute)
 
-app.get('/checkme', authenticationProxy , (req, res) => {
-
-  console.log(req.user)
-})
 
 app.listen(5000, () => console.log("app is listening to port 5000"))

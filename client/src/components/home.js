@@ -7,7 +7,7 @@ export const Home = ({setUser, trainer, setTrainer}) => {
 
     const logout = () => {
 
-      axios.delete('http://localhost:5000/logout', { withCredentials: true })
+      axios.delete('http://localhost:5000/logout/', { withCredentials: true })
           .then( res => { if (res.data === 'session destroyed') { 
                                 setUser(null) 
                                 setTrainer(null)
@@ -16,15 +16,8 @@ export const Home = ({setUser, trainer, setTrainer}) => {
                         }) 
     }
 
-    const check = () => {
-
-        axios.get('http://localhost:5000/checkme', { withCredentials: true })
-             .then( res => console.log(res.data))
-    }
-
     return(<div>Hello { trainer }
         <button onClick={logout }> Logout </button>
         <Link to="/profile"> Profile </Link>
-        <button onClick={ check }>Check id</button>
     </div>)
 }

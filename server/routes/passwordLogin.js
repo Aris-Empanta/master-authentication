@@ -52,7 +52,42 @@ router.post('/login', (req, res, done) => {
                                               
                               } 
                             )
-                      })                                                                     
+                      })      
+                      
+router.put('/set-new-password', async (req, res) => {
+
+    const email = req.body.email
+    const newPassword = req.body.newPassword
+
+    try {
+
+      let saltRounds = 10;
+      //We hash the password and then save it to the database.
+      const hashedPassword = await bcrypt.hash( newPassword, saltRounds)
+   
+
+      let query = `UPDATE users
+                  SET password = ?
+                  WHERE email = ?`
+
+      db.query( query, 
+                [ hashedPassword, email ], 
+                (err) => {
+                           if(err) {
+                                
+                              console.log('Error: ' + err.message)
+                              return res.send('An error occured in the server')
+                           }
+
+                           res.send('New password saved successfully!')
+                })
+      }
+      catch (err) {
+  
+        console.log('Error: ' + err.message)
+        return res.send('An error occured in the server')
+      }
+})
 
 
 module.exports = router

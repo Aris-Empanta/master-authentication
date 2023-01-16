@@ -47,7 +47,13 @@ app.use('/check-for-user', checkForUserRoute)
 app.use('/logout', logoutRoute )
 app.use('/get-verification-code', emailVerificationRoute)
 
-app.get('/checkme', (req, res) => {
+app.get('/checkme', (req, res, next) => {
+       
+  req.user = { user: 'aris'}
+  next()
+},
+(req, res) => {
+  console.log(req.user)
   console.log(req.session.passport.user.id)
   res.send({ id: req.session.passport.user.id})
 })

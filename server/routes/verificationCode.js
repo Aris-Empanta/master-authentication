@@ -33,31 +33,31 @@ router.post('/', (req, res) => {
         const saltRounds = 10;
         const hashedCode = await bcrypt.hash(code, saltRounds )       
 
-       if(!hashedCode) return res.send('The service is unavaillable now. please try again later')
+        if(!hashedCode) return res.send('The service is unavaillable now. please try again later')
 
-       let transporter = nodemailer.createTransport({
-                                host: process.env.MAIL_HOST,
-                                port: 465,
-                                secure: true, 
-                                auth: {
-                                user: process.env.ADMIN_MAIL, 
-                                pass: process.env.ADMIN_MAIL_PASS, 
-                            },
-                        })
+        let transporter = nodemailer.createTransport({
+                                  host: process.env.MAIL_HOST,
+                                  port: 465,
+                                  secure: true, 
+                                  auth: {
+                                  user: process.env.ADMIN_MAIL, 
+                                  pass: process.env.ADMIN_MAIL_PASS, 
+                              },
+                          })
 
-       transporter.sendMail({
-            from: process.env.ADMIN_MAIL,
-            to: email, 
-            subject: "VERIFICATION CODE", 
-            html: code     
-          }, 
-          async (err) => { 
-            
-            //Handling server/database error
-            if(err) {
+        transporter.sendMail({
+              from: process.env.ADMIN_MAIL,
+              to: email, 
+              subject: "VERIFICATION CODE", 
+              html: code     
+            }, 
+            (err) => { 
+              
+              //Handling server/database error
+              if(err) {
                         console.log(err.message)
                         return res.send('The service is unavaillable now. please try again later')
-                     }
+                      }
 
             //We will save the code to the database hashed
 
@@ -81,7 +81,7 @@ router.post('/', (req, res) => {
         }
         catch(err) {
  
-         return res.send('Server related error: '+ err.message)
+        return res.send('Server related error: '+ err.message)
        }
      
     })    

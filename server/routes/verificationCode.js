@@ -5,6 +5,7 @@ const db = require('../database/db')
 const verificationCode = require('../functions/verificationCode').verificationCode
 const bcrypt = require('bcrypt')
 
+//The route to send a verification code to a user, and save it in the database.
 router.post('/', (req, res) => {
 
     const email = req.body.email
@@ -87,6 +88,8 @@ router.post('/', (req, res) => {
     })    
 })
 
+//The route to compare the users verification code input to the one
+//that we actually sent to him/her. 
 router.post('/compare-verification-code', async (req, res) => {
       
       const clientsCode = req.body.code
@@ -114,7 +117,7 @@ router.post('/compare-verification-code', async (req, res) => {
                   //We compare the hashed code with the client's 
                   const isCodeCorrect = await bcrypt.compare( clientsCode, hashedCode )
                   
-                  if(!isCodeCorrect) return res.send('This is not the correct code')
+                  if(!isCodeCorrect) return res.sendStatus(401)                                      
 
                   res.sendStatus(200) 
                 } 

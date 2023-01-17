@@ -80,8 +80,9 @@ router.put('/set-new-password', async (req, res) => {
                             res.send('New password saved successfully!')
                   })
       }
-      catch (err) {
-  
+      catch (err) 
+      {
+          
         console.log('Error: ' + err.message)
         return res.send('An error occured in the server')
       }

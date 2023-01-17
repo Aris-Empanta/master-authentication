@@ -8,7 +8,6 @@ export const checkIfUser = async (axios, setUser, setTrainer) => {
                                                 })
                                                 console.log(response.data)
 
-                response.data.name ? setTrainer(response.data.name) : setTrainer(null)
-                //If there is a user's id, we stay logged in, elese we logout.
+                //If there is a user's id, we stay logged in, else we logout.
                 response.data.id ? setUser(true) : setUser(false)
             }

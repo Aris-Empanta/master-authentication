@@ -2,34 +2,13 @@ import "../css/login.css"
 import { useState } from 'react';
 import axios from 'axios'
 import { Link } from "react-router-dom";
+import { googleLogin, loginUser } from "../functions/login";
 
 export const Login = ({setUser, setTrainer}) => {
 
-  const [ username, setUsername ] = useState("")
-  const [ password, setPassword ] = useState("")
-  
-  const loginUser = () => { 
-
-    axios.post('http://localhost:5000/username-password/login', {
-                                                username: username,
-                                                password: password
-                                              }, 
-                                              { 
-                                                withCredentials: true 
-                                              })
-        .then( res => { 
-          console.log(res.data)
-                        res.data.id ? setUser(true) : setUser(false)
-                        res.data.name? setTrainer(res.data.name) : setTrainer(null)
-                        } )
-  
-  }   
-
-  const googleLogin = () => {
-
-    window.open('http://localhost:5000/auth/google', '_self')
-  }
-
+    const [ username, setUsername ] = useState("")
+    const [ password, setPassword ] = useState("")
+    
 
     return(<div className="loginComponent">
             <div id="googleLogin">
@@ -39,7 +18,11 @@ export const Login = ({setUser, setTrainer}) => {
               <h1>Login</h1>
               <input type="text" placeholder="username" onChange={ (e) => setUsername(e.target.value) }/>
               <input type="password" placeholder="password"  onChange={ (e) => setPassword(e.target.value) }/>
-              <button onClick={ loginUser }>login</button>
+              <button onClick={ () => loginUser( axios, username, 
+                                                 password, setUser, 
+                                                 setTrainer ) }>
+                login
+              </button>
               <Link to='/signup'>Register</Link>
               <Link to='/restore-password'>Forgot your password</Link>
             </div>

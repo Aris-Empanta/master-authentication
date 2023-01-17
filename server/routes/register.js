@@ -66,7 +66,6 @@ router.post('/', (req, res) => {
 
                }
                catch(error) {
-
              
                    console.log(error.message)
                    return res.send('A server related error occured. Please try again later')                

@@ -1,57 +1,45 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { sendVerificationCode, setNewPassword } from "../functions/restorePassword"
 import axios from 'axios'
 import '../css/restorePassword.css'
+import { Link, useNavigate } from "react-router-dom"
 
-export const RestorePassword = ({ setHaveCode }) => {
+export const RestorePassword = ({setHaveCode}) => {
 
     const [ password, setPassword ] = useState("")
     const [ verificationCode, setVerificationCode ] = useState('')
     const [ userVerified, setUserVerified ] = useState(false)
+    const [ confirmedPassword, setConfirmedPassword ] = useState("")
 
-    const sendVerificationCode = async () => {
+    const navigate = useNavigate()
 
-        const email = localStorage.getItem('email')
-        const restorePassword = document.getElementById('restorePassword')
+    useEffect(() => {
 
-        try {
-
-            const response = await axios.post('http://localhost:5000/get-verification-code/compare-verification-code',
-                                                { code: verificationCode, 
-                                                  email: email 
-                                                 })
-
-            if(response.status !== 200) return alert(response.data)
-
-            restorePassword.style.display = 'initial'
-            setUserVerified(true)
-        } catch (err) {
-
-            alert(err.message)
+        return () => {
+            //When component unmounts, we set below state to false, to erase
+            //the stored email from the local storage ( see parent App component )
+            setHaveCode(false)
         }
-    }
+    }, [])
 
-    const setNewPassword = async () => {
-
-        const email = localStorage.getItem('email')
-              
-        if(userVerified) {
-           
-           const response = await axios.put('http://localhost:5000/username-password/set-new-password', 
-                                            {  
-                                               email: email,
-                                               newPassword: password 
-                                            })
-            alert(response.data)
-        }
-    }
-
-   
+    const email = localStorage.getItem('email')
 
     return(<div id="restorePasswordComponent">
              <input type='text' placeholder="code"  onChange={ (e) => setVerificationCode(e.target.value) } />
-             <button onClick={ sendVerificationCode }>submit code</button>
-             <input type="password" placeholder="password" id="restorePassword" 
-                    onChange={ (e) => setPassword(e.target.value) }/>
-             <button onClick={ setNewPassword }>Save new password</button>
+             <button onClick={ () => sendVerificationCode( axios, verificationCode, 
+                                                           email, setUserVerified) } >
+                submit code
+             </button>
+             <div id="restorePassword">
+                <input type="password" placeholder="password"  
+                        onChange={ (e) => setPassword(e.target.value) }/>
+                <input type="password" placeholder="confirm password"  onChange={ (e) => setConfirmedPassword(e.target.value) }/>
+             </div>
+             <button onClick={ () => setNewPassword( axios, userVerified, 
+                                                     email, password,  
+                                                     confirmedPassword, navigate ) }>
+                    Save new password
+             </button>
+             <Link to="/login">Back to login</Link>
            </div>)
 }

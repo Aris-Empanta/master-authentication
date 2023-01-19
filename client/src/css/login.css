@@ -3,28 +3,33 @@
     justify-content: space-evenly;
     align-items: center;
     height: 100vh;    
+    background-color: #151515;
 }
 
-#usernamePasswordLogin {
+#loginWrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: aqua;
+    background-color: #252525;
+    border-radius: 3px;
     width: 250px;
     max-width: 100%;
-    padding: 25px;
+    padding: 30px;
 }
 
-#loginTitle {
+.loginTitle {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1.5rem;
     align-self: center;
+    color: silver;
+    margin-bottom: 30px;
 }
 
 .credentialsTitles {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 0.9rem;
     align-self: flex-start;
+    color: silver;
 }
 
 .credentialsWrapper {
@@ -33,19 +38,22 @@
 
 .credentialsInputs {
     border: none;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #101010;
     background-color: transparent;
     width: 100%;    
     text-indent: 25px;
     padding-right: 0;
     padding-left: 0;
     padding-bottom: 10px;
+    font-size: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #999999;
 }
 
 .credentialsInputs::placeholder {
     font-size: 0.9rem;
     font-family: Arial, Helvetica, sans-serif;
-    color: #303030;
+    color: #606060;
 }
 
 .credentialsInputs:focus {
@@ -58,20 +66,34 @@
     left: 5px;
     font-size: 0.9rem;
     font-family: Arial, Helvetica, sans-serif;
-    color: #303030;
+    color: #606060;
 }
 
 #forgotPassword {
     align-self: flex-end;
-    margin: 10px 0 20px 0;
+    margin: 10px 0 50px 0;
     font-size: 0.8rem;
     font-family: Arial, Helvetica, sans-serif;
     text-decoration: none;
-    color: #303030;
+    color: #999999;
+}
+
+#loginButton {
+    padding: 7px 0;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: Arial, Helvetica, sans-serif;
+    border: none;
+    border-radius: 5px;
+    background-color: #F40009;
+    color: whitesmoke;
 }
 
 #or {
     align-self: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.9rem;
+    color: silver;
 }
 
 #googleLogin {
@@ -79,11 +101,30 @@
     width: 100%;
 }
 
+#googleLogo {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
 #googleLoginButton {
     width: 100%;  
+    padding: 7px 0;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: Arial, Helvetica, sans-serif;
+    border: none;
+    border-radius: 5px;
+    background-color: #0077c0;
+    color: whitesmoke;
 }
 
 #signupLink {
-    margin-top: 40px;
+    margin-top: 80px;
+    margin-bottom: 5px;
     align-self: center;
-}
+    text-decoration: none;
+    color: #999999;
+    font-size: 0.9rem;
+    font-family: Arial, Helvetica, sans-serif;
+} 

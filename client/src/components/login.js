@@ -14,8 +14,8 @@ export const Login = ({setUser, setTrainer}) => {
     
 
     return(<div className="loginComponent">
-            <div id="usernamePasswordLogin">
-              <h1 id="loginTitle">User Login</h1>
+            <div id="loginWrapper">
+              <h1 className="loginTitle">The Pokedex</h1>
               <p className="credentialsTitles">Username</p>
               <div className="credentialsWrapper">
                 <input type="text" placeholder="Type your username" className="credentialsInputs"
@@ -33,14 +33,15 @@ export const Login = ({setUser, setTrainer}) => {
                 </div>
               </div>
               <Link to='/restore-password' id="forgotPassword">Forgot your password?</Link>
-              <button onClick={ () => loginUser( axios, username, 
+              <button id="loginButton"
+                      onClick={ () => loginUser( axios, username, 
                                                  password, setUser, 
                                                  setTrainer ) }>
                  Login
               </button>           
               <p id="or">or</p>   
               <div id="googleLogin">
-                <button onClick={ googleLogin } id="googleLoginButton">Login with Google</button>
+                <button onClick={ googleLogin } id="googleLoginButton"><span id="googleLogo">G </span>&nbsp;Login with Google</button>
               </div>
               <Link to='/signup' id="signupLink">Not a user? Signup </Link>
             </div>

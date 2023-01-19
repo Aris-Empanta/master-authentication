@@ -56,7 +56,7 @@ export const Register = () => {
                                                             confirmedPassword ) }>
                         Signup
                     </button>
-                    <Link to="/login" id="alreadyUser">Already a user? login</Link>
+                    <Link to="/login" className="backToLogin">Already a user? login</Link>
                 </div>
            </div>)
 }

@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-export const Login = ({setUser, setTrainer}) => {
+export const Login = ({setUser}) => {
 
     const [ username, setUsername ] = useState("")
     const [ password, setPassword ] = useState("")
@@ -35,8 +35,7 @@ export const Login = ({setUser, setTrainer}) => {
               <Link to='/restore-password' id="forgotPassword">Forgot your password?</Link>
               <button id="loginButton"
                       onClick={ () => loginUser( axios, username, 
-                                                 password, setUser, 
-                                                 setTrainer ) }>
+                                                 password, setUser ) }>
                  Login
               </button>           
               <p id="or">or</p>   

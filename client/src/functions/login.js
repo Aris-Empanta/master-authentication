@@ -1,5 +1,5 @@
 //The function to login with username and password
-export   const loginUser = async (axios, username, password, setUser, setTrainer) => { 
+export   const loginUser = async (axios, username, password, setUser) => { 
 
     const response = await axios.post('http://localhost:5000/username-password/login', {
                                                                                         username: username,
@@ -8,15 +8,17 @@ export   const loginUser = async (axios, username, password, setUser, setTrainer
                                                                                     { 
                                                                                         withCredentials: true 
                                                                                     })
+    
         
     //If the user is authenticated, and there is a user id and
     //name, we set the user state true to login, and we keep the 
     //trainer's name in the local storage and state.
-    response.data.id ? setUser(true) : setUser(false)
-    response.data.name? setTrainer(response.data.name) : setTrainer(null)
-                     
-  
-  } 
+    if ( response.data.id )  return setUser(true) 
+
+    setUser(false)
+    
+    alert(response.data)
+} 
 
 
 //The function to login with google account

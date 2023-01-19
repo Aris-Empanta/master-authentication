@@ -3,6 +3,7 @@
 export const sendVerificationCode = async (axios, verificationCode, email, setUserVerified) => {
 
     const restorePassword = document.getElementById('restorePassword')
+    const submitCode = document.getElementById('submitCodeWrapper')
 
     try {
 
@@ -15,8 +16,8 @@ export const sendVerificationCode = async (axios, verificationCode, email, setUs
                                            userData )
 
         if(response.status !== 200) return alert(response.data)
-        console.log(response.status)
-
+        
+        submitCode.style.display = 'none'
         restorePassword.style.display = 'initial'
         setUserVerified(true)
     } catch (err) {
@@ -30,6 +31,8 @@ export const setNewPassword = async (axios, userVerified, email, password, confi
 
        
     if(userVerified) {
+
+        if(password.length < 7 ) return alert('Your password should be at least 7 characters long!')
         
         if( password !== confirmedPassword) return alert('passwords dont match!')
 

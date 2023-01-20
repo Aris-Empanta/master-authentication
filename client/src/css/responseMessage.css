@@ -1,0 +1,30 @@
+#responseMessage {    
+    position: absolute;
+    top: 20px;
+}
+
+#waitingResponse {
+    background-color: blue;
+    width: 150px;
+    height: 20px;
+    color: whitesmoke;
+    display: none;
+    justify-content: space-evenly;
+}
+
+#positiveResponse {
+    width: 150px;
+    height: 20px;
+    background-color: green;
+    color: whitesmoke;
+    display: none;
+    justify-content: space-evenly;
+}
+
+#negativeResponse {
+    height: 20px;
+    background-color: red;
+    color: whitesmoke;
+    display: none;
+    justify-content: space-evenly;
+}

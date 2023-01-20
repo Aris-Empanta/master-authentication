@@ -6,7 +6,8 @@ import { googleLogin, loginUser } from "../functions/login";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import  charmander  from "../images/charmander.jpg"
+import { LoadingBar } from "./loadingBar";
+import { ResponseMessage } from "./responseMessage";
 
 export const Login = ({setUser}) => {
 
@@ -15,13 +16,10 @@ export const Login = ({setUser}) => {
     
 
     return(<div className="loginComponent">
+            <LoadingBar />
+            <ResponseMessage />
             <div id="loginWrapper">
-              <div id="loginTitleWrapper">                
-                <div className="pokeball">
-                  <div className="blackCircle"></div>
-                </div>    
-                <h1 className="loginTitle">The Pokedex </h1>
-              </div>
+              <h1 className="loginTitle">The Pokedex </h1>    
               <p className="credentialsTitles">Username</p>
               <div className="credentialsWrapper">
                 <input type="text" placeholder="Type your username" className="credentialsInputs"

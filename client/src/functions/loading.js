@@ -8,11 +8,9 @@ export const startLoadBar = () => {
 
 export const completeLoadBar = () => {
 
-    const loadingBar = document.getElementById("loadingBar")
-    const waitingResponse = document.getElementById("waitingResponse")
+    const loadingBar = document.getElementById("loadingBar")    
 
     loadingBar.style.width = "100%"
-    waitingResponse.style.display = "none"
 
     setTimeout( () => { 
                         loadingBar.style.transition = "width 0s"

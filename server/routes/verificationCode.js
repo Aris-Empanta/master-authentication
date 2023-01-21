@@ -100,7 +100,7 @@ router.post('/compare-verification-code', async (req, res) => {
                      WHERE email = ?`
                      
       db.query( query, 
-                email, 
+                email,  
                 async (err, rows) => {
 
                 //Handling server/database error
@@ -117,7 +117,7 @@ router.post('/compare-verification-code', async (req, res) => {
                   //We compare the hashed code with the client's 
                   const isCodeCorrect = await bcrypt.compare( clientsCode, hashedCode )
                   
-                  if(!isCodeCorrect) return res.sendStatus(401)                                      
+                  if(!isCodeCorrect) return res.send("Wrong code!")                                      
 
                   res.sendStatus(200) 
                 } 

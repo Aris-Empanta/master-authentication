@@ -6,6 +6,8 @@ import { Link, useNavigate } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKey } from "@fortawesome/free-solid-svg-icons";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { LoadingBar } from "./loadingBar";
+import { ResponseMessage } from "./responseMessage";
 
 export const RestorePassword = ({setHaveCode}) => {
 
@@ -28,6 +30,8 @@ export const RestorePassword = ({setHaveCode}) => {
     const email = localStorage.getItem('email')
 
     return(<div id="restorePasswordComponent">
+             <LoadingBar />
+             <ResponseMessage />
              <div id="restorePasswordWrapper">
                 <h1 className="resetPasswordTitle">Reset Password</h1>
                 <div id="submitCodeWrapper">  

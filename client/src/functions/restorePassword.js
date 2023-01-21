@@ -21,7 +21,7 @@ export const sendVerificationCode = async (axios, verificationCode, email, setUs
                           email: email 
                          }
 
-        const response = await axios.post( 'http://localhost:5000/get-verification-code/compare-verification-code',
+        const response = await axios.post( 'http://localhost:5000/verification-code/compare-verification-code',
                                            userData )
         
 

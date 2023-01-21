@@ -9,20 +9,18 @@ import { checkIfUser } from './functions/general'
 import { ForgotPassword } from './components/forgotPassword'
 import { RestorePassword } from './components/restorePassword';
 import axios from 'axios'
+import { LoadingComponent } from './components/loadingComponent';
 
 //The App's parent component.
 const App = () =>  {
 
-  const [ user, setUser ] = useState(null)
+  const [ user, setUser ] = useState("loading")
   const [ haveCode, setHaveCode ] = useState(false)
 
   useEffect( () => {
 
-                //We parse the string value from the local storage we saved, 
-                //and we set the user's state accordingly. 
-                JSON.parse(localStorage.getItem('user')) ? setUser(true) : setUser(false)
-
-                
+                //We show the user's loading screen               
+                setUser('loading')
 
                 //Every time the App renders, we check if a user's session exists, 
                 //to determine if we will stay logged in or not.
@@ -30,18 +28,19 @@ const App = () =>  {
               }, [])
 
   useEffect(() => {
-    
-                  //Every time the user state changes, we save the 
-                  //value in the local storage.
-                  localStorage.setItem('user', user)
 
                   //The email should stay on local storage only if we have verification code.
                   if( !haveCode )  localStorage.removeItem('email')
                 }, [user, haveCode])  
 
-  return (
+  return (          
           <Routes >
-            { !user ? (
+            { user === 'loading' ? (
+              <>
+                <Route path='/' element={ <LoadingComponent/> } />
+              </>
+              )
+              : !user ? (
               <>
                 <Route path='/login' element={< Login setUser = { setUser } />} />
                 <Route path='/signup' element={< Register />} /> 

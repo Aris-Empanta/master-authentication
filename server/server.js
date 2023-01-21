@@ -47,7 +47,7 @@ app.use('/username-password', passwordLoginRoute)
 app.use('/auth' ,googleAuthRoute)
 app.use('/check-for-user', authenticationProxy , checkForUserRoute)
 app.use('/logout', authenticationProxy, logoutRoute )
-app.use('/get-verification-code', emailVerificationRoute)
+app.use('/verification-code', emailVerificationRoute)
 
 
 app.listen(5000, () => console.log("app is listening to port 5000"))

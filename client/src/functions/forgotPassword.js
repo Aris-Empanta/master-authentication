@@ -8,7 +8,7 @@ export const getVerificationCode = async (axios, email, setHaveCode) => {
         hideAllResponses()
 
         if(email === "") { 
-          
+
             return showNegativeResponse("Please Enter your email") 
           }
 
@@ -17,7 +17,7 @@ export const getVerificationCode = async (axios, email, setHaveCode) => {
 
         try {
 
-          const response = await axios.post('http://localhost:5000/get-verification-code', { email: email})
+          const response = await axios.post('http://localhost:5000/verification-code', { email: email})
 
           //Blue bar on top completes loading
           completeLoadBar()

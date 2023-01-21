@@ -126,8 +126,6 @@ router.post('/compare-verification-code', async (req, res) => {
                   return res.send('Server related error: '+ err.message)
                 }
               })
-
-
 })
 
 module.exports = router;

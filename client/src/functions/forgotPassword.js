@@ -1,5 +1,6 @@
 import { startLoadBar, completeLoadBar } from "./loading"
 import { showNegativeResponse, hideAllResponses } from "./responseMessage"
+import { serverHost } from "../variables/serverHost"
 
 //We send a request to the server to receive a verification code in our email.
 export const getVerificationCode = async (axios, email, setHaveCode) => {
@@ -17,7 +18,7 @@ export const getVerificationCode = async (axios, email, setHaveCode) => {
 
         try {
 
-          const response = await axios.post('http://localhost:5000/verification-code', { email: email})
+          const response = await axios.post( serverHost + 'verification-code', { email: email})
 
           //Blue bar on top completes loading
           completeLoadBar()

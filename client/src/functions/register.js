@@ -2,6 +2,7 @@ import { startLoadBar, completeLoadBar } from "./loading"
 import { waitingResponse, 
          showPositiveResponse, 
          showNegativeResponse } from "./responseMessage"
+import { serverHost } from "../variables/serverHost"
 
 
 //The function to register a user
@@ -28,13 +29,15 @@ export const submitCredentials = async (axios, username, email, password, confir
                        password: password
                      }
 
+    //Loading elements while waiting response
     waitingResponse()
     startLoadBar()
 
     try {            
 
         //Send credentials to the server 
-        const response = await axios.post('http://localhost:5000/register', userInfo )
+        const response = await axios.post( serverHost + 'register', userInfo )
+        //Complete blue loadBar
         completeLoadBar()
 
         if( response.data === 'Your registration has been successfuly made!') {
@@ -45,7 +48,9 @@ export const submitCredentials = async (axios, username, email, password, confir
         showNegativeResponse(response.data)
     }
     catch (error) {
+        //Complete blue loadBar
         completeLoadBar()
+        
         //Handling client-server connection error
         showNegativeResponse(error.message)
     }

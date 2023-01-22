@@ -1,5 +1,6 @@
 import { startLoadBar, completeLoadBar } from "./loading"
 import { showNegativeResponse, hideAllResponses, showPositiveResponse } from "./responseMessage"
+import { serverHost } from "../variables/serverHost"
 
 //The function to send the code to the backend, which will compare it to 
 //see if it matches with the one it sent to us.
@@ -21,7 +22,7 @@ export const sendVerificationCode = async (axios, verificationCode, email, setUs
                           email: email 
                          }
 
-        const response = await axios.post( 'http://localhost:5000/verification-code/compare-verification-code',
+        const response = await axios.post( serverHost + 'verification-code/compare-verification-code',
                                            userData )
         
 
@@ -78,7 +79,7 @@ export const setNewPassword = async (axios, userVerified, email, password, confi
                                 }
        try {
 
-            const response = await axios.put( 'http://localhost:5000/register/set-new-password', 
+            const response = await axios.put( serverHost + 'register/set-new-password', 
                                              userCredentials )
 
             //Blue bar on top completes loading

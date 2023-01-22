@@ -1,4 +1,5 @@
 import { startLoadBar, completeLoadBar } from "./loading"
+import { serverHost } from "../variables/serverHost"
 import { waitingResponse, 
          showPositiveResponse, 
          showNegativeResponse } from "./responseMessage"
@@ -11,13 +12,13 @@ export const loginUser = async (axios, username, password, setUser) => {
     startLoadBar()
 
     try {
-        const response = await axios.post('http://localhost:5000/username-password/login', {
-                                                                                            username: username,
-                                                                                            password: password
-                                                                                        }, 
-                                                                                        { 
-                                                                                            withCredentials: true 
-                                                                                        })
+        const response = await axios.post( serverHost + 'username-password/login', {
+                                                                                      username: username,
+                                                                                      password: password
+                                                                                    }, 
+                                                                                    { 
+                                                                                      withCredentials: true 
+                                                                                    })
         completeLoadBar()       
 
         //If the user is authenticated, and there is a user id and
@@ -49,5 +50,5 @@ export const loginUser = async (axios, username, password, setUser) => {
 //The function to login with google account
 export const googleLogin = () => {
 
-    window.open('http://localhost:5000/auth/google', '_self')
+    window.open( serverHost + 'auth/google', '_self')
   }

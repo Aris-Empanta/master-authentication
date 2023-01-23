@@ -3,23 +3,24 @@ const axios = require("axios")
 module.exports = {
     pokemonList: async (req, res) => {
 
-        //The number of the dozen chunk we will sent to the client
-        const multiplier = req.body.dozen
+        //The offset variable is 1 value lower than the id of the
+        // first pokemon in the array of the pokemon we fetch.
+        const offset = req.query.offset
+        //The amount of pokemon we will fetch.
+        const limit = 9
        
         try {
-            //The limit of the endpoint
-            const limit = multiplier * 12
       
-            const response = await axios.get("http://pokeapi.co/api/v2/pokemon/?limit=" + limit)
+            const response = await axios.get(`http://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`)
 
-            //The array chunk we will edit to sent to the user
-            const dozen = response.data.results.slice(limit - 12, limit)
-
+            //The array of the pokemon the client requests.
+            const pokemonSet = response.data.results
+            
             //The pokemon names
-            const pokemonNames = dozen.map( item => item.name)
+            const pokemonNames = pokemonSet.map( item => item.name)
 
             //The urls with the pokemon info 
-            const pokemonInfoUrls = dozen.map( item => item.url)
+            const pokemonInfoUrls = pokemonSet.map( item => item.url)
 
             //the final array with the info to be filled and sent to the client
             const pokemonInfo = []
@@ -50,7 +51,6 @@ module.exports = {
 
                 pokemonInfo.push(info)
             }
-
             res.send(pokemonInfo)
         } 
         catch(error) {

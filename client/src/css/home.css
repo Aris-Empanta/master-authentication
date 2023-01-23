@@ -1,0 +1,8 @@
+.pokemonListImage {
+    width: 200px;
+    height: 200px;
+}
+
+.pokemonListWrapper {
+    border: 1px solid black;
+}

@@ -15,6 +15,7 @@ module.exports = {
             req.user = req.session.user
             return next()
         }
+        
         //We dont allow unauthorised users to reach endpoints that
         //are subject to this middleware.
         res.send('You are not authorised')

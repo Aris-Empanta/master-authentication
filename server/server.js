@@ -41,14 +41,14 @@ const logoutRoute = require('./routes/logout')
 const emailVerificationRoute = require('./routes/verificationCode') 
 const pokeApi = require("./routes/pokeApi")
 
-//Initializing routes middleware. The private user endpoints 
+//Initializing routes middleware. The private user endpoints
 //will also have the "authenticationProxy" middleware
 app.use("/register", registerRoutes)
 app.use('/username-password', passwordLoginRoute)  
+app.use('/verification-code', emailVerificationRoute)
 app.use('/auth' ,googleAuthRoute)
 app.use('/check-for-user', authenticationProxy , checkForUserRoute)
 app.use('/logout', authenticationProxy, logoutRoute )
-app.use('/verification-code', emailVerificationRoute)
-app.use('/pokemon-api', pokeApi)
+app.use('/pokemon-api', authenticationProxy, pokeApi)
 
 app.listen(5000, () => console.log("app is listening to port 5000"))

@@ -1,8 +1,30 @@
 .pokemonListImage {
-    width: 200px;
+    width: 250px;
     height: 200px;
+
 }
 
-.pokemonListWrapper {
+#pokemonListWrapper {
+    display: grid;
+    grid-template-areas: 'pokemon pokemon pokemon';
+    justify-content: center;
+    column-gap: 30px;
+    row-gap: 30px;
+}
+
+.individualPokemonWrapper {
     border: 1px solid black;
+    grid-area: 'pokemon';
+}
+
+.typesWrapper {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.pokemonType {
+    border-radius: 3px;
+    padding: 2px 10px;
+    font-size: 0.8rem;
+    font-family: Arial, Helvetica, sans-serif;
 }

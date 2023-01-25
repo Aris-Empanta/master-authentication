@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { logout } from '../functions/logout';
 import { fetchPokemon } from '../functions/home';
+import { formatId, firstLetterCapital } from '../functions/general';
 import "../css/home.css"
+import "../css/pokemonTypes.css"
 
 
 export const Home = ({setUser}) => {
@@ -19,12 +21,18 @@ export const Home = ({setUser}) => {
     return(<div>
              <button onClick={ () => logout( axios, setUser ) }> Logout </button>
              <Link to="/profile"> Profile </Link>
-             { pokemon.map( item => <div className='pokemonListWrapper'>
-                                      <img src={ item.image }  className="pokemonListImage"/>
-                                      <p className="pokemonListName"> { item.name } </p>
-                                      <p className="pokemonListId"> { item.id }</p>
-                                      { item.types.map( item => <p> { item } </p>)}
+             <div id='pokemonListWrapper'>
+             { pokemon.map( item => <div className='individualPokemonWrapper'>
+                                      <img src={ item.image }  className="pokemonListImage"/>                                      
+                                      <p className="pokemonListId">  { formatId(item.id) }</p>
+                                      <p className="pokemonListName"> { firstLetterCapital(item.name) } </p>
+                                      <div className='typesWrapper'>
+                                        { item.types.map(type => <p className={ "pokemonType " + type } > 
+                                                                    { firstLetterCapital(type) } 
+                                                                 </p> )}
+                                      </div>
                                     </div>)}
+             </div>
              <button onClick={ () => fetchPokemon(axios, offset, pokemon, setPokemon, setOffset) }>
                more
              </button>
